@@ -2,14 +2,14 @@ package com.allianz.training.cloud;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.config.server.EnableConfigServer;
+import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 
 @SpringBootApplication
-@EnableConfigServer
-public class ConfigServerApplication {
+@EnableEurekaServer
+public class DirectoryApplication {
 
     public static void main(final String[] args) {
-        SpringApplication.run(ConfigServerApplication.class,
+        SpringApplication.run(DirectoryApplication.class,
                               args);
     }
 }

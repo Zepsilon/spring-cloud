@@ -19,31 +19,37 @@ import com.netflix.discovery.EurekaClient;
 @RestController
 public class ConsumerApplication {
 
-	@Bean
-	@LoadBalanced
-	public RestTemplate restTemp() {
-		return new RestTemplate();
-	}
-	
-	@Autowired
-	private EurekaClient ec;
-	
-	@Autowired
-	private RestTemplate rt;
-	
-	public static void main(String[] args) {
-		SpringApplication.run(ConsumerApplication.class, args);
-	}
-	
-	@RequestMapping(method=RequestMethod.GET, path="/produce")
-	public String callProducer() {
-		InstanceInfo instanceInfo = ec.getNextServerFromEureka("producer", false);
-		String homePageUrl = instanceInfo.getHomePageUrl() + "/serverinfo";
-		return rt.getForObject(homePageUrl, String.class);
-	}
-	
-	@RequestMapping(method=RequestMethod.GET, path="/produce2")
-	public String callProducer2() {
-		return rt.getForObject("http://producer/serverinfo", String.class);
-	}
+    @Bean
+    @LoadBalanced
+    public RestTemplate restTemp() {
+        return new RestTemplate();
+    }
+
+    @Autowired
+    private EurekaClient ec;
+
+    @Autowired
+    private RestTemplate rt;
+
+    @RequestMapping(method = RequestMethod.GET, path = "/produce")
+    public String callProducer() {
+        InstanceInfo instanceInfo = this.ec.getNextServerFromEureka("producer",
+                                                                    false);
+        String homePageUrl = instanceInfo.getHomePageUrl() + "/serverinfo";
+        return this.rt.getForObject(homePageUrl,
+                                    String.class);
+
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/produce2")
+    public String callProducer2() {
+        return this.rt.getForObject("http://PRODUCER/serverinfo",
+                                    String.class);
+
+    }
+
+    public static void main(final String[] args) {
+        SpringApplication.run(ConsumerApplication.class,
+                              args);
+    }
 }
