@@ -3,7 +3,9 @@ package com.allianz.training.cloud;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,11 +19,21 @@ import com.netflix.discovery.EurekaClient;
 @RestController
 public class ConsumerApplication {
 
+	@Bean
+	@LoadBalanced
+	public RestTemplate restTemp() {
+		return new RestTemplate();
+	}
+	
 	@Autowired
 	private EurekaClient ec;
 	
 	@Autowired
 	private RestTemplate rt;
+	
+	public static void main(String[] args) {
+		SpringApplication.run(ConsumerApplication.class, args);
+	}
 	
 	@RequestMapping(method=RequestMethod.GET, path="/produce")
 	public String callProducer() {
@@ -30,7 +42,8 @@ public class ConsumerApplication {
 		return rt.getForObject(homePageUrl, String.class);
 	}
 	
-	public static void main(String[] args) {
-		SpringApplication.run(ConsumerApplication.class, args);
+	@RequestMapping(method=RequestMethod.GET, path="/produce2")
+	public String callProducer2() {
+		return rt.getForObject("http://producer/serverinfo", String.class);
 	}
 }
