@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProducerApplication {
 
 	@Value("${server.port}")
-	private int port;
+	private String port;
 	
 	@RequestMapping(method=RequestMethod.GET, path="/serverinfo")
 	public String serverInfo() {
