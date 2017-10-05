@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
@@ -13,16 +14,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ProducerApplication {
 
-    @Value("${server.port}")
-    private String port;
+	@Value("${server.port}")
+	private String port;
 
-    @RequestMapping(method = RequestMethod.GET, path = "/serverinfo")
-    public String serverInfo() {
-        return "My port : " + this.port;
-    }
+	public static void main(final String[] args) {
+		SpringApplication.run(ProducerApplication.class, args);
+	}
 
-    public static void main(final String[] args) {
-        SpringApplication.run(ProducerApplication.class,
-                              args);
-    }
+	@RequestMapping(method = RequestMethod.GET, path = "/serverinfo")
+	public String serverInfo() {
+		return "My port : " + this.port;
+	}
+
+	@RequestMapping(method = RequestMethod.GET, path = "/testfeign")
+	public String serverInfo(@RequestParam("name") String name, @RequestParam("surname") String surname) {
+		return "Hello : " + name + " " + surname;
+	}
 }
