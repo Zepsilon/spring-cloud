@@ -17,6 +17,9 @@ public class ProducerApplication {
 	@Value("${server.port}")
 	private String port;
 
+	@Value("${test.message}")
+	private String msg;
+
 	public static void main(final String[] args) {
 		SpringApplication.run(ProducerApplication.class, args);
 	}
