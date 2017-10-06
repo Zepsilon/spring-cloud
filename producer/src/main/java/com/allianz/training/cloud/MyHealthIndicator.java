@@ -8,18 +8,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class MyHealthIndicator implements HealthIndicator {
 
-	@Value("${server.port}")
-	private int port;
-	
-	
-	@Override
-	public Health health() {
-		
-		if (this.port == 7002) {
-			return Health.down().build();
-		}
-		
-		return Health.up().build();
-	}
+    @Value("${server.port}")
+    private int port;
+
+    @Override
+    public Health health() {
+        if (this.port == 7002) {
+            return Health.down()
+                         .build();
+        }
+        return Health.up()
+                     .build();
+    }
 
 }
